@@ -18,12 +18,15 @@ export default {
     },
     methods: {
         addTodo: function() {
-            console.log(this.newTodoItem);
-            // localStorage에 저장하는 로직
-            // localStorage.setItem(키, 밸류);
-            localStorage.setItem(this.newTodoItem, this.newTodoItem);
-            // 값 비우는 로직
-            this.clearInput();
+            if(this.newTodoItem !== ''){
+                var obj = {completed: false, item: this.newTodoItem};
+                // console.log(this.newTodoItem);
+                // localStorage에 저장하는 로직 = localStorage.setItem(키, 밸류);
+                // localStorage.setItem(this.newTodoItem, obj); // value obj 객체 내부에 어떤 값이 있는 지 알 수 없다.
+                localStorage.setItem(this.newTodoItem, JSON.stringify(obj));
+                // 값 비우는 로직
+                this.clearInput();
+            }
         },
         clearInput: function() {
             this.newTodoItem = '';

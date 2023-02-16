@@ -4,7 +4,7 @@
     <!-- <TodoInput v-on:하위컴포넌트에서 발생시킨 이벤트 이름="현재컴포넌트의 메서드정의"></TodoInput> -->
     <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
     <!-- <TodoList v-bind:내려보낼프롭스속성이름="현재위치컴포넌트데이터속성"></TodoList> -->
-    <TodoList v-bind:propsdata="todoItems"></TodoList>
+    <TodoList v-bind:propsdata="todoItems" v-on:removeItem="removeOneItem"></TodoList>
     <TodoFooter></TodoFooter>
   </div>
 </template>
@@ -24,10 +24,15 @@ export default {
   methods: {
     addOneItem: function(todoItem) {
       var obj = {completed: false, item: todoItem};
-                // localStorage에 저장하는 로직 = localStorage.setItem(키, 밸류);
-                // localStorage.setItem(this.newTodoItem, obj); // value obj 객체 내부에 어떤 값이 있는 지 알 수 없다.
-                localStorage.setItem(todoItem, JSON.stringify(obj));
-                this.todoItems.push(obj);
+      // localStorage에 저장하는 로직 = localStorage.setItem(키, 밸류);
+      // localStorage.setItem(this.newTodoItem, obj); // value obj 객체 내부에 어떤 값이 있는 지 알 수 없다.
+      localStorage.setItem(todoItem, JSON.stringify(obj));
+      this.todoItems.push(obj);
+    },
+    removeOneItem: function(todoItem, index) {
+      console.log(todoItem);
+      localStorage.removeItem(todoItem.item);
+      this.todoItems.splice(index, 1); // index, 삭제할개수
     }
   },
   created: function() {

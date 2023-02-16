@@ -6,14 +6,29 @@
     <span class="addContainer" v-on:click="addTodo">
         <i class="fas fa-plus addBtn"></i>
     </span>
+
+    <button id="show-modal" @click="showModal = true">Show Modal</button>
+
+    <Teleport to="body">
+    <!-- use the modal component, pass in the prop -->
+    <modal :show="showModal" @close="showModal = false">
+        <template #header>
+        <h3>custom header</h3>
+        </template>
+    </modal>
+    </Teleport>
+
   </div>
 </template>
 
 <script>
+import Modal from './common/CommonModal.vue'
+
 export default {
     data: function() {
         return {
-            newTodoItem: ""
+            newTodoItem: "",
+            showModal: false
         }
     },
     methods: {
@@ -27,6 +42,10 @@ export default {
         clearInput: function() {
             this.newTodoItem = '';
         }
+    },
+    components: {
+        // TodoInput의 하위 컴포넌트 
+        'modal': Modal
     }
 }
 </script>

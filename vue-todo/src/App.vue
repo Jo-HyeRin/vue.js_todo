@@ -4,7 +4,10 @@
     <!-- <TodoInput v-on:하위컴포넌트에서 발생시킨 이벤트 이름="현재컴포넌트의 메서드정의"></TodoInput> -->
     <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
     <!-- <TodoList v-bind:내려보낼프롭스속성이름="현재위치컴포넌트데이터속성"></TodoList> -->
-    <TodoList v-bind:propsdata="todoItems" v-on:removeItem="removeOneItem"></TodoList>
+    <TodoList v-bind:propsdata="todoItems" 
+      v-on:removeItem="removeOneItem" 
+      v-on:toggleItem="toggleOneItem">
+    </TodoList>
     <TodoFooter></TodoFooter>
   </div>
 </template>
@@ -33,6 +36,13 @@ export default {
       console.log(todoItem);
       localStorage.removeItem(todoItem.item);
       this.todoItems.splice(index, 1); // index, 삭제할개수
+    },
+    toggleOneItem: function(todoItem, index) {
+      // console.log(todoItem, index);
+      // todoItem.completed = !todoItem.completed; 를 아래로 변경. 컴포넌트 간의 경계를 더 명확히 해준다.
+      this.todoItems[index].completed = !this.todoItems[index].completed
+      localStorage.removeItem(todoItem.item);
+      localStorage.setItem(todoItem.item, JSON.stringify(todoItem));
     }
   },
   created: function() {

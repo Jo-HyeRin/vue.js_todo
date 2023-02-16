@@ -2,7 +2,8 @@
   <div id="app">
     <TodoHeader></TodoHeader>
     <TodoInput></TodoInput>
-    <TodoList></TodoList>
+    <!-- <TodoList v-bind:내려보낼프롭스속성이름="현재위치컴포넌트데이터속성"></TodoList> -->
+    <TodoList v-bind:propsdata="todoItems"></TodoList>
     <TodoFooter></TodoFooter>
   </div>
 </template>
@@ -14,6 +15,22 @@ import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
 
 export default {
+  data: function() {
+    return {
+      todoItems: []
+    }
+  },
+  created: function() {
+    // 로컬스토리지 값 가져우기
+    if(localStorage.length > 0) {
+        for(var i = 0; i < localStorage.length ; i++) {
+            if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
+                // 로컬스토리지 값 확인하기 : console.log(JSON.parse(localStorage.getItem(localStorage.key(i)))); 
+                this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));             
+            }
+        }
+    }
+  },
   components: {
     // 컴포넌트 태그명 : 컴포넌트 내용
     'TodoHeader' : TodoHeader,

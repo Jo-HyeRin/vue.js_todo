@@ -7,17 +7,22 @@
         <i class="fas fa-plus addBtn"></i>
     </span>
 
-    <button id="show-modal" @click="showModal = true">Show Modal</button>
-
     <Teleport to="body">
-    <!-- use the modal component, pass in the prop -->
-    <modal :show="showModal" @close="showModal = false">
+        <!-- use the modal component, pass in the prop -->
+        <modal :show="showModal" @close="showModal = false">
         <template #header>
-        <h3>custom header</h3>
+            <h3>
+                경고!
+                <i class="closeModalBtn fas fa-times" @click="showModal = false"></i>
+            </h3>
         </template>
-    </modal>
-    </Teleport>
 
+        <template #body>
+            <h3>아무것도 입력하지 않았습니다.</h3>
+        </template>
+      
+        </modal>
+    </Teleport>
   </div>
 </template>
 
@@ -37,6 +42,8 @@ export default {
                 this.$emit('addTodoItem', this.newTodoItem);
                 // 값 비우는 로직
                 this.clearInput();
+            } else {
+                this.showModal = !this.showModal;
             }
         },
         clearInput: function() {
@@ -45,7 +52,7 @@ export default {
     },
     components: {
         // TodoInput의 하위 컴포넌트 
-        'modal': Modal
+        Modal: Modal
     }
 }
 </script>
@@ -74,5 +81,8 @@ input:focus {
 .addBtn {
     color: white;
     vertical-align: middle;
+}
+.closeModalBtn {
+    color: #42b983;
 }
 </style>
